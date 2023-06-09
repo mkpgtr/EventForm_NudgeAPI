@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+
 import { convertStringToArray } from '../utils/stringToArray'
+import { Navigate, useNavigate } from 'react-router-dom'
 const defaultFormObject = {
     name:"",
     subcategory:"",
@@ -18,6 +20,7 @@ const CreateEvent = () => {
 
     const [eventDetails,setEventDetails] = useState(defaultFormObject)
     const [file,setFile] = useState('')
+    const navigate = useNavigate()
 
     const handleChange =(e)=>{
         setEventDetails({...eventDetails,[e.target.name]:e.target.value})
@@ -30,6 +33,10 @@ const CreateEvent = () => {
     const handleSubmit = async(e)=>{
         console.log(e.preventDefault())
 
+        if(!file){
+            alert('please choose a picture')
+            return
+        }
 let key;
        for(key in eventDetails){
         if(!eventDetails[key]){
@@ -48,7 +55,7 @@ let key;
        try {
         formData.append("image",file)
 
-       const response = await axios.post(`http://localhost:5000/api/v3/app/nudge/image/upload-image`,formData)
+       const response = await axios.post(`http://localhost:5000/api/v3/app/images/upload-image`,formData)
 
        console.log(response.data.data)
 
@@ -56,6 +63,7 @@ let key;
 
        const response2 = await axios.post(`http://localhost:5000/api/v3/app/events`,eventDetails)
        console.log(response2)
+      navigate('/')
        } catch (error) {
         console.log(error)
        }
