@@ -33,7 +33,7 @@ const redirectToUpdatePage = ()=>{
   return (
     <div>
         {events && events.map((event)=>{
-            return <div style={{display:'flex', justifyContent:'center'}}>
+            return <div key={event.id} style={{display:'flex', justifyContent:'center'}}>
                 <span>{event.name}</span>
                 <button onClick={()=>navigate(`/editEvent/${event.id}`)}>Edit</button>
                 <button onClick={()=>deleteEventFromBackend(event.id)}>Delete</button>
