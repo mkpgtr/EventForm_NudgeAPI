@@ -13,8 +13,6 @@ const defaultFormObject = {
     rigor_rank:"",
     tagline:"",
     attendees:[]
-    
-
 }
 const CreateEvent = () => {
 
@@ -23,6 +21,7 @@ const CreateEvent = () => {
     const navigate = useNavigate()
 
     const handleChange =(e)=>{
+        // dynamic object keys
         setEventDetails({...eventDetails,[e.target.name]:e.target.value})
         
     }
@@ -33,12 +32,14 @@ const CreateEvent = () => {
     const handleSubmit = async(e)=>{
         console.log(e.preventDefault())
 
+        //  if file is not present, then alert
         if(!file){
             alert('please choose a picture')
             return
         }
 let key;
        for(key in eventDetails){
+        // form fields
         if(!eventDetails[key]){
             alert(`please provide ${key}`)
             return
@@ -55,6 +56,7 @@ let key;
        try {
         formData.append("image",file)
 
+        
        const response = await axios.post(`http://localhost:5000/api/v3/app/images/upload-image`,formData)
 
        console.log(response.data.data)
