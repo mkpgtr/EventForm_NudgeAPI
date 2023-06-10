@@ -16,6 +16,11 @@ const getAllEvents =async()=>{
 }
 
 const deleteEventFromBackend=async(id)=>{
+    const isConfirmed = confirm('do you really want to delete?')
+
+    if(!isConfirmed){
+        return
+    }
     const response = await axios.delete(`http://localhost:5000/api/v3/app/events/${id}`)
     console.log(response)
     getAllEvents()
@@ -33,10 +38,19 @@ const redirectToUpdatePage = ()=>{
   return (
     <div>
         {events && events.map((event)=>{
-            return <div key={event.id} style={{display:'flex', justifyContent:'center'}}>
-                <span>{event.name}</span>
-                <button onClick={()=>navigate(`/editEvent/${event.id}`)}>Edit</button>
+            return <div key={event.id} style={{display:'flex', 
+            gap:"2rem",
+            border:"2px solid black",
+            padding:"4rem",
+            borderRadius:"30px",
+            justifyContent:'center',
+            alignItems:'center'}}>
+                <h3>{event.name}</h3>
+
+             <div>
+             <button onClick={()=>navigate(`/editEvent/${event.id}`)}>Edit</button>
                 <button onClick={()=>deleteEventFromBackend(event.id)}>Delete</button>
+             </div>
             </div>
         })}
     </div>
