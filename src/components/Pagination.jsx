@@ -1,28 +1,43 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Pagination = ({ events, setEvents, page, limit }) => {
-  const totalPages = Math.ceil(events.length / limit);
-  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+const Pagination = ({ events, currentEvents,setCurrentEvents, setEvents, page, limit }) => {
+    const [totalPages, setTotalPages] = useState(0);
+    const startIndex = (page - 1) * limit;
+    const endIndex = Math.min(startIndex + limit, events.length);
+    const visibleEvents = events.slice(startIndex, endIndex);
+    const numVisibleEvents = visibleEvents.length;
 
+  useEffect(() => {
+    setTotalPages(Math.ceil(events.length / limit));
+  }, [events, limit]);
 
-  const handleClick = (pageNumber) => {
-    // Handle click logic here, such as updating the page state
-    // or fetching the data for the selected page
+  const handleClick = async (pageNumber) => {
     console.log(`Clicked on page ${pageNumber}`);
-
-    getEvents(pageNumber)
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v3/app/events?page=${pageNumber}&limit=${limit}&type=latest`
+      );
+     setCurrentEvents(response.data)
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    }
   };
 
-  const getEvents = async(pageNumber)=>{
-    const event = await axios.get(`http://localhost:5000/api/v3/app/events?page=${pageNumber}&limit=2&type=latest`)
-    console.log(event)
-    setEvents(event.data)
+  const getCurrentEvents = async()=>{
+   const response =  await axios.get(
+        `http://localhost:5000/api/v3/app/events?page=${1}&limit=${limit}&type=latest`
+      );
+
+      setCurrentEvents(response.data)
   }
+  useEffect(()=>{
+    getCurrentEvents()
+  },[])
 
   return (
     <div>
-      {pageNumbers.map((pageNumber) => (
+      {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
         <button
           key={pageNumber}
           onClick={() => handleClick(pageNumber)}

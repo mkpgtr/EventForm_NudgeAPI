@@ -5,7 +5,9 @@ import Pagination from '../components/Pagination'
 
 const AllEvents = () => {
     const navigate = useNavigate()
+    const [page,setPage] = useState(1)
 const [events,setEvents] = useState([])
+const [currentEvents,setCurrentEvents] = useState([])
 
 const getAllEvents =async()=>{
 
@@ -44,7 +46,19 @@ const redirectToUpdatePage = ()=>{
         <div className='container'>
         <button className='w-100 p-5' onClick={()=>navigate('/addEvent')}>Add Event</button>
             <div className="row eventsContainer justify-content-around align-items-center">
-               {events ? events.map((event)=>{
+                {/* {
+                    
+                    currentEvents ? currentEvents.map((event)=>{
+                        return <div key={event.id} className='singleEvent col-12 mt-5 p-5  col-md-6 col-lg-3 border border-black'>
+                        <h4>{event.name}</h4>
+                        <div className='d-flex justify-content-around'>
+                        <button onClick={()=>navigate(`/editEvent/${event.id}`)}>Edit</button>
+                        <button>Delete</button>
+                        </div>
+                    </div>
+                      }): <h1>No current events</h1>
+                } */}
+               { events ? events.map((event)=>{
 
                     return <div key={event.id} className='singleEvent col-12 mt-5 p-5  col-md-6 col-lg-3 border border-black'>
                         <h4>{event.name}</h4>
@@ -56,7 +70,7 @@ const redirectToUpdatePage = ()=>{
                }): <h1>No events found</h1>}
             </div>
 
-            <Pagination events={events} setEvents={setEvents} limit={1} />
+            {/* <Pagination events={events} setEvents={setEvents} currentEvents={currentEvents} setCurrentEvents={setCurrentEvents} limit={3} /> */}
         </div>
     </div>
   )
