@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
+// ! I added the currentEvents state variable to make the chatGPT code working
 const Pagination = ({ events, currentEvents,setCurrentEvents, setEvents, page, limit }) => {
     const [totalPages, setTotalPages] = useState(0);
     const startIndex = (page - 1) * limit;

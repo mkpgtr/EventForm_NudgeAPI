@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 import { convertStringToArray } from '../utils/stringToArray'
@@ -19,11 +19,40 @@ const CreateEvent = () => {
     const [eventDetails,setEventDetails] = useState(defaultFormObject)
     const [file,setFile] = useState('')
     const navigate = useNavigate()
+    const [categories,setCategories] = useState([])
+    const [subCategories,setSubCategories] = useState([])
+    const [users,setUsers] = useState([])
+    const rigorRanks = [1,2,3,4,5,6,7,8,9,10]
+
+
+    const getAllCategories = async()=>{
+        const response = await axios.get(`http://localhost:5000/api/v3/app/categories`)
+        setCategories(response.data.data)
+    }
+    
+    const getAllSubCategories = async()=>{
+        
+        const response = await axios.get(`http://localhost:5000/api/v3/app/subcategories/${eventDetails.category}`)
+        console.log(response)
+        setSubCategories(response.data.data2)
+
+    }
+
+    const getAllUsers = async()=>{
+        const response = await axios.get(`http://localhost:5000/api/v3/app/users/`)
+        setUsers(response.data.data)
+    }
+
+
+    useEffect(()=>{
+        getAllSubCategories(eventDetails.category)
+    },[eventDetails.category])
 
     const handleChange =(e)=>{
         // dynamic object keys
         setEventDetails({...eventDetails,[e.target.name]:e.target.value})
         
+        console.log(eventDetails)
     }
     const handleFileChange = (e)=>{
         console.log(e.target.files[0])
@@ -47,7 +76,6 @@ let key;
        }
 
        // all the logic after the form has passed empty value checks
-       console.log(eventDetails) 
        eventDetails.attendees = convertStringToArray(eventDetails.attendees.toString())
 
        const formData = new FormData()
@@ -78,6 +106,14 @@ let key;
         console.log(error)
        }
     }
+
+   
+
+    useEffect(()=>{
+        getAllCategories()
+        getAllSubCategories()
+        getAllUsers()
+    },[])
   return (
     <>
     {/* <form onSubmit={handleSubmit} style={{display:'flex', flexDirection:'column'}}>
@@ -106,16 +142,41 @@ let key;
   <input type="type" class="form-control" name='name' onChange={handleChange} placeholder="Name of the event"/>
 </div>
 
-<div class="mb-3">
-  <input type="text" class="form-control" name='category' onChange={handleChange} placeholder="Category"/>
-</div>
 
 <div class="mb-3">
-  <input type="text" class="form-control" name='subcategory' onChange={handleChange} placeholder="Subcategory"/>
+  <select type="text" class="form-control" name='category' onChange={handleChange} placeholder="Category">
+    <option>Select Category</option>
+    {categories && categories.map((category)=>{
+        return<>
+        <option value={category.name}>
+            {category.name}
+            </option>
+        </> 
+    })}
+  </select>
 </div>
 
+
 <div class="mb-3">
-  <input type="text" class="form-control" name='moderator' onChange={handleChange} placeholder="Moderator"/>
+  <select type="text" class="form-control" name='subcategory' onChange={handleChange} placeholder="Subcategory">
+
+      <option>Select Subcategory</option>
+    {subCategories && subCategories.map((subcategory)=>{
+        return <>
+        <option value={subcategory.name}>{subcategory.name}</option>
+        </>
+    })}
+  </select>
+</div>
+
+
+<div class="mb-3">
+  <select type="text" class="form-control" name='moderator' onChange={handleChange} placeholder="Moderator">
+    <option>Select Moderator</option>
+    {users && users.map((user)=>{
+        return <option>{user?.name}</option>
+    })}
+    </select>
 </div>
 
 <div class="mb-3">
@@ -128,7 +189,12 @@ let key;
 
 
 <div class="mb-3 d-flex align-items-center justify-content-between gap-5">
-  <input type="number" class="form-control" name='rigor_rank' onChange={handleChange} placeholder="Rigor Rank"/>
+  <select type="number" class="form-control" name='rigor_rank' onChange={handleChange} placeholder="Rigor Rank">
+       <option value="">Select Rigor Rank</option>
+        {rigorRanks.map((rank)=>{
+            return <option value={rank}>{rank}</option>
+        })}
+    </select>
 </div>
 <div class="mb-3 d-flex align-items-center justify-content-between gap-3">
   <input type="text" class="form-control" name='attendees' onChange={handleChange} placeholder="Attendees"/>

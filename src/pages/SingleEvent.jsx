@@ -10,6 +10,7 @@ const getSingleEvent = async(id)=>{
     const response = await axios.get(`http://localhost:5000/api/v3/app/events?id=${id}`)
     setEvent(response.data[0])
 }
+console.log(event)
 const id = params.id
 useEffect(()=>{
     getSingleEvent(id)

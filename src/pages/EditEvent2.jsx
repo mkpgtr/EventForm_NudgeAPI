@@ -24,6 +24,29 @@ const [event,setEvent] = useState({})
   const [file,setFile]= useState()
   const [name,setName] = useState()
   const navigate = useNavigate()
+  const [categories,setCategories] = useState([])
+  const [subCategories,setSubCategories] = useState([])
+  const [users,setUsers] = useState([])
+
+
+  const getAllCategories = async()=>{
+      const response = await axios.get(`http://localhost:5000/api/v3/app/categories`)
+      setCategories(response.data.data)
+  }
+  
+  const getAllSubCategories = async()=>{
+      
+      const response = await axios.get(`http://localhost:5000/api/v3/app/subcategories/${eventDetails.category}`)
+      console.log(response)
+      setSubCategories(response.data.data2)
+
+  }
+
+  console.log(event)
+  const getAllUsers = async()=>{
+      const response = await axios.get(`http://localhost:5000/api/v3/app/users/`)
+      setUsers(response.data.data)
+  }
   
   
   const [eventDetails,setEventDetails] = useState(defaultFormObject)
@@ -54,6 +77,9 @@ const handleChange = (e)=>{
   
   setEventDetails({...eventDetails,[e.target.name]:e.target.value})
 }
+useEffect(()=>{
+    getAllSubCategories(eventDetails.category)
+},[eventDetails.category])
 console.log(eventDetails)
 const handleSubmit = async(e)=>{
     console.log(e.preventDefault())
@@ -100,6 +126,11 @@ const handleSubmit = async(e)=>{
   }
    }
 }
+useEffect(()=>{
+    getAllCategories()
+    getAllSubCategories()
+    getAllUsers()
+},[])
 
   useEffect(()=>{
     getSingleEvent(id)
@@ -132,22 +163,37 @@ const handleSubmit = async(e)=>{
 </div>
 
 
+
 <div class="mb-3">
-  <input type="text" class="form-control" name='category' onChange={handleChange} 
+  <select type="text" class="form-control" name='category' onChange={handleChange} 
   value={eventDetails.category}
-  placeholder="Category"/>
+  placeholder="Category">
+    {categories && categories.map((category)=>{
+        return <option value={category.name}>{category.name}</option>
+    })}
+  </select>
 </div>
 
 <div class="mb-3">
-  <input type="text" class="form-control" name='subcategory' onChange={handleChange}
+  <select type="text" class="form-control" name='subcategory' onChange={handleChange}
   value={eventDetails.subcategory}
-  placeholder="Subcategory"/>
+  placeholder="Subcategory"> 
+  {subCategories && subCategories.map((subcategory)=>{
+    return <option value={subcategory.name}>{subcategory.name}</option>
+  }) }
+  </select>
 </div>
 
+
 <div class="mb-3">
-  <input type="text" class="form-control" name='moderator' onChange={handleChange} 
+  <select type="text" class="form-control" name='moderator' onChange={handleChange} 
   value={eventDetails.moderator}
-  placeholder="Moderator"/>
+  placeholder="Moderator">
+
+    {users && users.map((user)=>{
+        return <option value={user.name}>{user.name}</option>
+    })}
+  </select>
 </div>
 
 <div class="mb-3">

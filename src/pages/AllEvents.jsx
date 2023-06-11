@@ -45,7 +45,7 @@ const redirectToUpdatePage = ()=>{
 
 
         <div className='container'>
-        <button className='w-100 p-5' onClick={()=>navigate('/addEvent')}>Add Event</button>
+        <button className='w-100 p-5' onClick={()=>navigate('/addEvent')}>Let's add some events!</button>
             <div className="row eventsContainer justify-content-around align-items-center">
                 {
                     
@@ -71,7 +71,8 @@ const redirectToUpdatePage = ()=>{
                }): <h1>No events found</h1>} */}
             </div>
 
-            <Pagination events={events} setEvents={setEvents} currentEvents={currentEvents} setCurrentEvents={setCurrentEvents} limit={3} />
+            {/* ! Used ChatGPT's help to build the Pagination.jsx in components/Pagination.jsx  */}
+            <Pagination events={events} setEvents={setEvents} currentEvents={currentEvents} setCurrentEvents={setCurrentEvents} limit={5} />
         </div>
     </div>
   )
