@@ -41,3 +41,22 @@
   color: #888;
 }
 
+
+
+/* ! events */
+
+
+.singleEvent{
+  cursor: pointer;
+  transition: 0.2s linear all;
+}
+.singleEvent:hover{
+
+  background-color: black;
+  color: white;
+  border-radius: 20px;
+}
+
+.eventsContainer{
+  gap:0.5rem;
+}

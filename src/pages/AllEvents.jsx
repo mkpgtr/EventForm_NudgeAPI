@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Pagination from '../components/Pagination'
 
 const AllEvents = () => {
     const navigate = useNavigate()
@@ -37,30 +38,15 @@ const redirectToUpdatePage = ()=>{
     },[])
   return (
     <div>
-        {/* {events ? events.map((event)=>{
-            return <div className='w-50' key={event.id} style={{display:'flex', 
-            gap:"2rem",
-            border:"2px solid black",
-            padding:"4rem",
-            borderRadius:"30px",
-            justifyContent:'center',
-            alignItems:'center'}}>
-                <h3>{event.name}</h3>
-
-             <div>
-             <button onClick={()=>navigate(`/editEvent/${event.id}`)}>Edit</button>
-                <button onClick={()=>deleteEventFromBackend(event.id)}>Delete</button>
-             </div>
-            </div>
-        }) : <h1>No Events Found</h1>} */}
+       
 
 
         <div className='container'>
         <button className='w-100 p-5' onClick={()=>navigate('/addEvent')}>Add Event</button>
-            <div className="row justify-content-around align-items-center">
+            <div className="row eventsContainer justify-content-around align-items-center">
                {events ? events.map((event)=>{
 
-                    return <div key={event.id} className='col-12 mt-5 p-5 col-md-6 col-lg-3 border border-black'>
+                    return <div key={event.id} className='singleEvent col-12 mt-5 p-5  col-md-6 col-lg-3 border border-black'>
                         <h4>{event.name}</h4>
                         <div className='d-flex justify-content-around'>
                         <button onClick={()=>navigate(`/editEvent/${event.id}`)}>Edit</button>
@@ -69,6 +55,8 @@ const redirectToUpdatePage = ()=>{
                     </div>
                }): <h1>No events found</h1>}
             </div>
+
+            <Pagination events={events} setEvents={setEvents} limit={1} />
         </div>
     </div>
   )
