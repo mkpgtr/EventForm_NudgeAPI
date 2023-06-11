@@ -92,7 +92,7 @@ const handleSubmit = async(e)=>{
         }
        }
 
-   
+       eventDetails.attendees = convertStringToArray(eventDetails.attendees.toString())
 
    const formData = new FormData()
 
@@ -100,7 +100,15 @@ const handleSubmit = async(e)=>{
    try {
     
       formData.append("image",file)
+      
+      console.log(eventDetails)
+      const response0 = await axios.post(`http://localhost:5000/api/v3/app/events/sanityCheck`,eventDetails)
 
+    console.log(response0)
+      if(!response0.status===200){
+       alert('sanity check failed. please enter valid attendee ids')
+       return
+      }
     
     const response = await axios.put(`http://localhost:5000/api/v3/app/images/${id}/upload-image/`,formData)
   
@@ -118,9 +126,9 @@ const handleSubmit = async(e)=>{
  
    } catch (error) {
     console.log(error)
+    alert(error.response.data.message)
     if(error.response.data.message==='invalid attendee ID entered in attendee array'){
-      alert(error.response.data.message)
-      return
+      
   }else if(error.response.data.message.startsWith('no such')){
       alert(error.response.data.message)
   }
@@ -168,6 +176,7 @@ useEffect(()=>{
   <select type="text" class="form-control" name='category' onChange={handleChange} 
   value={eventDetails.category}
   placeholder="Category">
+    <option>Select Category</option>
     {categories && categories.map((category)=>{
         return <option value={category.name}>{category.name}</option>
     })}
@@ -177,7 +186,9 @@ useEffect(()=>{
 <div class="mb-3">
   <select type="text" class="form-control" name='subcategory' onChange={handleChange}
   value={eventDetails.subcategory}
+  
   placeholder="Subcategory"> 
+  <option value="">select one value</option>
   {subCategories && subCategories.map((subcategory)=>{
     return <option value={subcategory.name}>{subcategory.name}</option>
   }) }

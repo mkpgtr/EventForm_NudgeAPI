@@ -84,6 +84,20 @@ let key;
        try {
         formData.append("image",file)
 
+        // sanity check to check whether attendee ids are valid attendee ids
+
+        const response0 = await axios.post(`http://localhost:5000/api/v3/app/events/sanityCheck`,eventDetails)
+
+
+       if(!response0.status===200){
+        alert('sanity check failed. please enter valid attendee ids')
+        return
+       }
+
+
+
+       
+
         
        const response = await axios.post(`http://localhost:5000/api/v3/app/images/upload-image`,formData)
 
@@ -99,7 +113,7 @@ let key;
        } catch (error) {
         if(error.response.data.message==='invalid attendee ID entered in attendee array'){
             alert(error.response.data.message)
-            return
+            
         }else if(error.response.data.message.startsWith('no such')){
             alert(error.response.data.message)
         }
