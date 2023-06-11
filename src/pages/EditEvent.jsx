@@ -153,9 +153,11 @@ const handleSubmit = async(e)=>{
 
 
 
+<span>Rigor Rank</span>
 <div class="mb-3 d-flex align-items-center justify-content-between gap-5">
   <input type="number" class="form-control" name='rigor_rank' value={eventDetails.rigor_rank} onChange={handleChange} placeholder="Rigor Rank"/>
 </div>
+<span>Attendees</span>
 <div class="mb-3 d-flex align-items-center justify-content-between gap-3">
   <input type="text" class="form-control" name='attendees' value={eventDetails.attendees} onChange={handleChange} placeholder="Attendees"/>
 </div>

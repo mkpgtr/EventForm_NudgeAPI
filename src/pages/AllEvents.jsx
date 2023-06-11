@@ -27,6 +27,7 @@ const deleteEventFromBackend=async(id)=>{
     const response = await axios.delete(`http://localhost:5000/api/v3/app/events/${id}`)
     console.log(response)
     getAllEvents()
+    window.location.reload('/')
     
 }
 
@@ -46,19 +47,19 @@ const redirectToUpdatePage = ()=>{
         <div className='container'>
         <button className='w-100 p-5' onClick={()=>navigate('/addEvent')}>Add Event</button>
             <div className="row eventsContainer justify-content-around align-items-center">
-                {/* {
+                {
                     
                     currentEvents ? currentEvents.map((event)=>{
-                        return <div key={event.id} className='singleEvent col-12 mt-5 p-5  col-md-6 col-lg-3 border border-black'>
-                        <h4>{event.name}</h4>
+                        return <div  key={event.id} className='singleEvent col-12 mt-5 p-5  col-md-6 col-lg-3 border border-black'>
+                        <h4 onClick={()=>navigate(`/singleEvent/${event.id}`)}>{event.name}</h4>
                         <div className='d-flex justify-content-around'>
                         <button onClick={()=>navigate(`/editEvent/${event.id}`)}>Edit</button>
-                        <button>Delete</button>
+                        <button onClick={()=>deleteEventFromBackend(event.id)}>Delete</button>
                         </div>
                     </div>
                       }): <h1>No current events</h1>
-                } */}
-               { events ? events.map((event)=>{
+                }
+               {/* { events ? events.map((event)=>{
 
                     return <div key={event.id} className='singleEvent col-12 mt-5 p-5  col-md-6 col-lg-3 border border-black'>
                         <h4>{event.name}</h4>
@@ -67,10 +68,10 @@ const redirectToUpdatePage = ()=>{
                         <button>Delete</button>
                         </div>
                     </div>
-               }): <h1>No events found</h1>}
+               }): <h1>No events found</h1>} */}
             </div>
 
-            {/* <Pagination events={events} setEvents={setEvents} currentEvents={currentEvents} setCurrentEvents={setCurrentEvents} limit={3} /> */}
+            <Pagination events={events} setEvents={setEvents} currentEvents={currentEvents} setCurrentEvents={setCurrentEvents} limit={3} />
         </div>
     </div>
   )

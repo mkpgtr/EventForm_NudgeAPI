@@ -6,6 +6,7 @@ import CreateEvent from './pages/CreateEvent'
 import AllEvents from './pages/AllEvents'
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
 import EditEvent from './pages/EditEvent'
+import SingleEvent from './pages/singleEvent'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path='/' element={<AllEvents />}/>
         <Route path ='/editEvent/:id' element ={<EditEvent/>} />
         <Route path ='/addEvent' element ={<CreateEvent/>} />
+        <Route path ='/singleEvent/:id' element ={<SingleEvent/>} />
         <Route />
       </Routes>
       
