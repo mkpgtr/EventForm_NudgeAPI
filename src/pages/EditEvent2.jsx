@@ -102,6 +102,7 @@ const handleSubmit = async(e)=>{
       formData.append("image",file)
       
       console.log(eventDetails)
+      // ! the sanity check checks for valid attendee ids before any photo is uploaded
       const response0 = await axios.post(`http://localhost:5000/api/v3/app/events/sanityCheck`,eventDetails)
 
     console.log(response0)

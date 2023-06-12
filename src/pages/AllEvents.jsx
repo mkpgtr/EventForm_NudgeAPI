@@ -21,7 +21,19 @@ const getAllEvents =async()=>{
 const deleteEventFromBackend=async(id)=>{
     const isConfirmed = confirm('do you really want to delete?')
 
+    const response0 = await axios.delete(`http://localhost:5000/api/v3/app/images/${id}`)
+
+    console.log(response0)
+    if(!response0.status===200){
+        alert
+        return
+    }
     if(!isConfirmed){
+        return
+    }
+
+    if(!response0.status===200){
+        alert('error occured while deleting image');
         return
     }
     const response = await axios.delete(`http://localhost:5000/api/v3/app/events/${id}`)
