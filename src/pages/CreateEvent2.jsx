@@ -96,7 +96,7 @@ let key;
 
 
 
-       
+
 
         
        const response = await axios.post(`http://localhost:5000/api/v3/app/images/upload-image`,formData)
@@ -104,7 +104,7 @@ let key;
        console.log(response.data.data)
 
        eventDetails.imageURL = response.data.data
-
+// ! 
        const response2 = await axios.post(`http://localhost:5000/api/v3/app/events`,eventDetails)
       
        console.log(response2.data)

@@ -21,6 +21,7 @@ const getAllEvents =async()=>{
 const deleteEventFromBackend=async(id)=>{
     const isConfirmed = confirm('do you really want to delete?')
 
+    // ! delete the image
     const response0 = await axios.delete(`http://localhost:5000/api/v3/app/images/${id}`)
 
     console.log(response0)
@@ -31,7 +32,7 @@ const deleteEventFromBackend=async(id)=>{
     if(!isConfirmed){
         return
     }
-
+    
     if(!response0.status===200){
         alert('error occured while deleting image');
         return
@@ -46,6 +47,8 @@ const deleteEventFromBackend=async(id)=>{
 const redirectToUpdatePage = ()=>{
 
 }
+
+
     useEffect(()=>{
 
         getAllEvents()
@@ -57,6 +60,8 @@ const redirectToUpdatePage = ()=>{
 
 
         <div className='container'>
+            
+            // ! difference between button & anchor
         <button className='w-100 p-5' onClick={()=>navigate('/addEvent')}>Let's add some events!</button>
             <div className="row eventsContainer justify-content-around align-items-center">
                 {

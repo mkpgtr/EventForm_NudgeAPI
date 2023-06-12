@@ -103,13 +103,14 @@ const handleSubmit = async(e)=>{
       
       console.log(eventDetails)
       // ! the sanity check checks for valid attendee ids before any photo is uploaded
-      const response0 = await axios.post(`http://localhost:5000/api/v3/app/events/sanityCheck`,eventDetails)
+    //   const response0 = await axios.post(`http://localhost:5000/api/v3/app/events/sanityCheck`,eventDetails)
 
-    console.log(response0)
-      if(!response0.status===200){
-       alert('sanity check failed. please enter valid attendee ids')
-       return
-      }
+    // console.log(response0)
+
+    //   if(!response0.status===200){
+    //    alert('sanity check failed. please enter valid attendee ids')
+    //    return
+    //   }
     
     const response = await axios.put(`http://localhost:5000/api/v3/app/images/${id}/upload-image/`,formData)
   
